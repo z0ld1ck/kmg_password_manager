@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../const/app_colors.dart';
 
 
@@ -10,7 +9,7 @@ final ThemeData APP_THEME = ThemeData(
   useMaterial3: true,
   scaffoldBackgroundColor: AppColors.blueSuper,
   brightness: Brightness.light,
-  primaryColor: const Color(0xFF0D3027),
+  primaryColor: const Color(0xFF141432),
 
   primaryColorLight: const Color(0xffF1F8EC),
   iconTheme: const IconThemeData(color: Colors.black),
