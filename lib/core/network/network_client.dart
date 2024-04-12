@@ -1,38 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import '../const/app_strings.dart';
 
-abstract class NetworkClientInterface {
-  const NetworkClientInterface();
+class NetworkClient {
+  final String baseUrl;
 
-  Future<QueryResult> queryGraphQL(String query,
-      {Map<String, dynamic>? variables});
+  NetworkClient(this.baseUrl);
 
-  Future<QueryResult> mutationGraphQL(String mutation,
-      {Map<String, dynamic>? variables});
-}
+  ValueNotifier<GraphQLClient> getClient() {
+    final HttpLink httpLink = HttpLink(baseUrl + AppStrings.graphql);
 
-class NetworkClient implements NetworkClientInterface {
-  late final GraphQLClient _graphQLClient;
-
-  NetworkClient(String uri) {
-    final Link link = HttpLink(uri);
-    _graphQLClient = GraphQLClient(
-      link: link,
+    final GraphQLClient client = GraphQLClient(
+      link: httpLink,
       cache: GraphQLCache(),
     );
-  }
 
-  @override
-  Future<QueryResult> queryGraphQL(String query, {Map<String, dynamic>? variables}) async {
-    final options = QueryOptions(
-      document: gql(query),
-      variables: variables ?? {},
-    );
-    return await _graphQLClient.query(options);
-  }
-
-  @override
-  Future<QueryResult<Object?>> mutationGraphQL(String mutation, {Map<String, dynamic>? variables}) async  {
-    final options=MutationOptions(document: gql(mutation),variables:variables??{});
-    return await _graphQLClient.mutate(options);
+    return ValueNotifier(client);
   }
 }
